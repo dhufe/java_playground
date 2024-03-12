@@ -9,9 +9,9 @@
         </File>
     </Appenders>
     <Loggers>
-        <Root level="ALL">
-            <AppenderRef ref="ConsoleAppender" />
-            <AppenderRef ref="FileAppender" />
+        <Root level="trace">
+            <AppenderRef ref="ConsoleAppender" level="debug"/>
+            <AppenderRef ref="FileAppender" level="info" />
         </Root>
     </Loggers>
 </Configuration>

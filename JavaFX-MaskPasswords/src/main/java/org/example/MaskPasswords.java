@@ -7,18 +7,14 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import javafx.application.Application;
-import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableSet;
 import javafx.collections.SetChangeListener.Change;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.ToggleButton;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -31,7 +27,7 @@ public class MaskPasswords extends Application {
 
     @Override
     public void start (Stage primaryStage) {
-        TableView<ConfigModel> userTable = new TableView<>();
+        TableView<ConfigModel> configTable = new TableView<>();
 
         // standard column stuff:
         TableColumn<ConfigModel, String> KeyCol = new TableColumn<>("Key");
@@ -41,78 +37,53 @@ public class MaskPasswords extends Application {
         ValueCol.setCellValueFactory(cellData -> cellData.getValue().valueProperty());
 
         // which passwords are shown:
-        ObservableSet<ConfigModel> usersWithShownPasswords = FXCollections.observableSet();
+        ObservableSet<ConfigModel> configWithShownPasswords = FXCollections.observableSet();
 
         // cell factory for password column. Cells must show either the
         // real or masked password, and may
-        // need to update if usersWithShownPasswords changes:
-        ValueCol.setCellFactory(c -> {
-
-            // plain old cell:
-            TableCell<ConfigModel, String> cell = new TableCell<>();
-
+        // need to update if configWithShownPasswords changes:
+        ValueCol.setCellFactory( new ConfigTableCell<ConfigModel, ConfigModel>().forTableColumn() );
+/*
+            // textfield cell for editing values:
+            ConfigTableCell cell = new ConfigTableCell<ConfigModel, ConfigModel>();
             // if the cell is reused for an item from a different row, update it:
-            cell.indexProperty().addListener((obs, oldIndex, newIndex) -> updateCell(usersWithShownPasswords, cell));
-
+            cell.indexProperty().addListener((obs, oldIndex, newIndex) -> updateCell(configWithShownPasswords, cell));
             // if the password changes, update:
-            cell.itemProperty().addListener((obs, oldItem, newItem) -> updateCell(usersWithShownPasswords, cell));
-
+            cell.itemProperty().addListener((obs, oldItem, newItem) -> updateCell(configWithShownPasswords, cell));
             // if the set of users with shown password changes, update the cell:
-            usersWithShownPasswords.addListener((Change<? extends ConfigModel> change) -> updateCell(usersWithShownPasswords, cell));
+            configWithShownPasswords.addListener((Change<? extends ConfigModel> change) -> updateCell(configWithShownPasswords, cell));
 
             return cell;
+        }*/
+
+
+
+        //ValueCol.setCellValueFactory(new PropertyValueFactory<>("value"));
+
+        configTable.setEditable(true);
+        ValueCol.setEditable(true);
+
+        ValueCol.setOnEditCommit( t -> {
+            int iRow = t.getTablePosition().getRow();
+            ConfigModel model = t.getTableView().getItems().get( iRow );
+            model.setValue( t.getNewValue() );
         });
+
+
+        //PropertyValue.setCellValueFactory(new PropertyValueFactory<>("value"));
+        //PropertyValue.setCellFactory( TextFieldTableCell.forTableColumn());
 
         TableColumn<ConfigModel, ConfigModel> showHidePasswordCol = new TableColumn<>("Show/Hide password");
-
         // just use whole row (User) as data for cells in this column:
         showHidePasswordCol.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue()));
-
         // cell factory for toggle buttons:
-        showHidePasswordCol.setCellFactory(c -> new TableCell<ConfigModel, ConfigModel>() {
-
-            // create toggle button once for cell:
-            private final ToggleButton button = new ToggleButton();
-
-            // anonymous constructor:
-            {
-                // update toggle button state if usersWithShownPasswords changes:
-                usersWithShownPasswords.addListener((Change<? extends ConfigModel> change) -> {
-                    button.setSelected(usersWithShownPasswords.contains(getItem()));
-                });
-
-                // update usersWithShownPasswords if toggle selection changes:
-                button.selectedProperty().addListener((obs, wasSelected, isNowSelected) -> {
-                    if (isNowSelected) {
-                        usersWithShownPasswords.add(getItem());
-                    } else {
-                        usersWithShownPasswords.remove(getItem());
-                    }
-                });
-
-                // keep text "Show" or "Hide" appropriately:
-                button.textProperty().bind(Bindings.when(button.selectedProperty()).then("Hide").otherwise("Show"));
-                setAlignment(Pos.CENTER);
-            }
-
-            // Just update graphic as needed:
-            @Override
-            public void updateItem (ConfigModel item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    button.setSelected(usersWithShownPasswords.contains(item));
-                    setGraphic(button);
-                }
-            }
-        });
-
-        userTable.getColumns().addAll(Arrays.asList(KeyCol, ValueCol, showHidePasswordCol));
-
-        userTable.getItems().addAll(createData());
-
-        Scene scene = new Scene(new BorderPane(userTable), 800, 600);
+        showHidePasswordCol.setCellFactory(c -> new ConfigTableCell() );
+        showHidePasswordCol.setEditable(false);
+        //showHidePasswordCol.setCellFactory(c -> new ConfigFieldCell() );
+        configTable.getColumns().addAll(Arrays.asList(KeyCol, ValueCol, showHidePasswordCol));
+        configTable.getItems().addAll(createData());
+        BorderPane pane = new BorderPane(configTable);
+        Scene scene = new Scene(pane, 800, 600);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -150,7 +121,9 @@ public class MaskPasswords extends Application {
         } else {
             ConfigModel model = table.getItems().get(index);
             // if current config parameter is shown or the according key contains pass
-            if (usersWithShownPasswords.contains(model) || model.getKey().toUpperCase().contains("PASS")) {
+            if (usersWithShownPasswords.contains(model) && model.getKey().toUpperCase().contains("PASS")) {
+                cell.setText(model.getValue());
+            } else if (! model.getKey().toUpperCase().contains("PASS")) {
                 cell.setText(model.getValue());
             } else {
                 cell.setText(maskPassword(model.getValue()));
