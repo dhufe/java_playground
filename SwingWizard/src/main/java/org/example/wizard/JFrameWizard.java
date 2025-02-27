@@ -13,10 +13,10 @@ public class JFrameWizard extends JFrame implements WizardInterface {
     private static final Dimension defaultminimumSize = new Dimension(500, 500);
 
     private final JPanel wizardPageContainer = new JPanel(new GridLayout(1, 1));
-    private final JButton cancelButton = new JButton("Cancel");
-    private final JButton previousButton = new JButton("Previous");
-    private final JButton nextButton = new JButton("Next");
-    private final JButton finishButton = new JButton("Finish");
+    private final JButton cancelButton = new JButton("Abbrechen");
+    private final JButton previousButton = new JButton("Vorheriger Schritt");
+    private final JButton nextButton = new JButton("Nächster Schritt");
+    private final JButton finishButton = new JButton("Fertigstellen");
 
     public JFrameWizard(String title, GraphicsConfiguration gc) {
         super(title, gc);
@@ -57,7 +57,7 @@ public class JFrameWizard extends JFrame implements WizardInterface {
         cancelButton.addActionListener(e -> dispose());
 
         finishButton.addActionListener(e -> {
-            JOptionPane.showMessageDialog(getContentPane(), "Wizard finished!");
+            //JOptionPane.showMessageDialog(getContentPane(), "Wizard finished!");
             dispose();
         });
 

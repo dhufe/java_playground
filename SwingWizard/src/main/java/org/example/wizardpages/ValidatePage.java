@@ -1,21 +1,20 @@
 package org.example.wizardpages;
 
 import org.example.wizard.AbstractWizardPage;
-import java.awt.FlowLayout;
-import java.awt.Label;
 
-public class StartPage extends AbstractWizardPage {
+import java.awt.*;
 
-    private final AbstractWizardPage nextPage = new ChooseActionPage();
+public class ValidatePage extends AbstractWizardPage {
+    private final AbstractWizardPage nextPage = null;
 
-    public StartPage() {
+    public ValidatePage() {
         setLayout(new FlowLayout());
-        add(new Label("This is the first page of the wizard. Press Next to continue."));
+        add(new Label("This is the page of the wizard for validating existing Bagits . Press Next to continue."));
     }
 
     @Override
     protected AbstractWizardPage getNextPage() {
-        return this.nextPage;
+        return nextPage;
     }
 
     @Override
@@ -25,7 +24,7 @@ public class StartPage extends AbstractWizardPage {
 
     @Override
     protected boolean isPreviousAllowed() {
-        return false;
+        return true;
     }
 
     @Override
