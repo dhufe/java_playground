@@ -5,8 +5,7 @@ import org.example.wizard.AbstractWizardPage;
 import java.awt.*;
 
 public class ValidatePage extends AbstractWizardPage {
-    private final AbstractWizardPage nextPage = null;
-
+    
     public ValidatePage() {
         setLayout(new FlowLayout());
         add(new Label("This is the page of the wizard for validating existing Bagits . Press Next to continue."));
@@ -14,7 +13,7 @@ public class ValidatePage extends AbstractWizardPage {
 
     @Override
     protected AbstractWizardPage getNextPage() {
-        return nextPage;
+        return null;
     }
 
     @Override
