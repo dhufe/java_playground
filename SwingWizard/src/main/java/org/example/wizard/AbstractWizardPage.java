@@ -1,6 +1,5 @@
 package org.example.wizard;
 
-import java.awt.LayoutManager;
 import java.io.Serial;
 import javax.swing.JPanel;
 
@@ -9,18 +8,6 @@ public abstract class AbstractWizardPage extends JPanel {
     private static final long serialVersionUID = 1000143453163604518L;
 
     private WizardController wizardController;
-
-    public AbstractWizardPage(LayoutManager layout, boolean isDoubleBuffered) {
-        super(layout, isDoubleBuffered);
-    }
-
-    public AbstractWizardPage(LayoutManager layout) {
-        super(layout);
-    }
-
-    public AbstractWizardPage(boolean isDoubleBuffered) {
-        super(isDoubleBuffered);
-    }
 
     public AbstractWizardPage() {
         super();
