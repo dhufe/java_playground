@@ -19,12 +19,7 @@ public class FinalPage extends AbstractWizardPage {
         add(finishTextField);
 
         // Add a listener for updating the wizard buttons
-        finishTextField.addTextListener(new TextListener() {
-            @Override
-            public void textValueChanged(TextEvent e) {
-                updateWizardButtons();
-            }
-        });
+        finishTextField.addTextListener(e -> updateWizardButtons());
     }
 
     @Override
