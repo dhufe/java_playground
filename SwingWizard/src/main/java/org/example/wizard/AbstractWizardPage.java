@@ -1,9 +1,11 @@
 package org.example.wizard;
 
 import java.awt.LayoutManager;
+import java.io.Serial;
 import javax.swing.JPanel;
 
 public abstract class AbstractWizardPage extends JPanel {
+    @Serial
     private static final long serialVersionUID = 1000143453163604518L;
 
     private WizardController wizardController;
