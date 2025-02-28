@@ -6,8 +6,8 @@ import javax.swing.table.TableModel;
 import java.util.Vector;
 
 public class BagitParamModel implements TableModel {
-    private Vector bagitParameters = new Vector();
-    private Vector listeners = new Vector();
+    private final Vector<BagitParam> bagitParameters = new Vector<>();
+    private final Vector<TableModelListener> listeners = new Vector<>();
 
     public void addParameter(BagitParam parameter) {
         int index = this.bagitParameters.size();
@@ -18,8 +18,8 @@ public class BagitParamModel implements TableModel {
                 TableModelEvent.ALL_COLUMNS, TableModelEvent.INSERT);
 
         // Nun das Event verschicken
-        for (int i = 0, n = listeners.size(); i < n; i++) {
-            ((TableModelListener) listeners.get(i)).tableChanged(e);
+        for (TableModelListener listener : listeners) {
+            listener.tableChanged(e);
         }
     }
 
@@ -35,57 +35,49 @@ public class BagitParamModel implements TableModel {
 
     @Override
     public String getColumnName(int columnIndex) {
-        switch (columnIndex) {
-            case 0:
-                return "Parameter";
-            case 1:
-                return "Wert";
-            default:
-                return null;
-        }
+        return switch (columnIndex) {
+            case 0 -> "Parameter";
+            case 1 -> "Wert";
+            default -> null;
+        };
     }
 
     @Override
     public Class<?> getColumnClass(int columnIndex) {
-        switch (columnIndex) {
-            case 0:
-                return String.class;
-            case 1:
-                return String.class;
-            default:
-                return null;
-        }
+        return switch (columnIndex) {
+            case 0, 1 -> String.class;
+            default -> null;
+        };
     }
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        switch (columnIndex) {
-            case 0:
-                return false;
-            case 1:
-                return true;
-            default:
-                return false;
-        }
+        return columnIndex == 1;
+
+        /*
+        return switch (columnIndex) {
+            case 0 -> false;
+            case 1 -> true;
+            default -> false;
+        };
+        */
+
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        BagitParam bp = (BagitParam) bagitParameters.get(rowIndex);
+        BagitParam bp = bagitParameters.get(rowIndex);
 
-        switch (columnIndex) {
-            case 0:
-                return bp.getParameterName();
-            case 1:
-                return bp.getParameterValue();
-            default:
-                return null;
-        }
+        return switch (columnIndex) {
+            case 0 -> bp.getParameterName();
+            case 1 -> bp.getParameterValue();
+            default -> null;
+        };
     }
 
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        BagitParam bp = (BagitParam) bagitParameters.get(rowIndex);
+        BagitParam bp = bagitParameters.get(rowIndex);
 
         switch (columnIndex) {
             case 0:
