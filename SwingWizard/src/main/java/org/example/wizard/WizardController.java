@@ -1,9 +1,7 @@
 package org.example.wizard;
 
 import javax.swing.AbstractButton;
-import java.util.ArrayList;
 import java.util.EmptyStackException;
-import java.util.List;
 import java.util.Stack;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
@@ -27,30 +25,28 @@ public class WizardController {
         wizard.getPreviousButton().addActionListener(new PreviousPageListener());
     }
 
-    public boolean showNextPage(AbstractWizardPage nextPage) {
+    public void showNextPage(AbstractWizardPage nextPage) {
         if (nextPage == null) {
             // Next page is null. Updating buttons and ignoring request.
             updateButtons();
-            return false;
+            return;
         }
         if (currentPage != null) {
             pageHistory.push(currentPage);
         }
         setPage(nextPage);
-        return true;
     }
 
-    public boolean showPreviousPage() {
+    public void showPreviousPage() {
         AbstractWizardPage previousPage;
         try {
             previousPage = pageHistory.pop();
         } catch (EmptyStackException e) {
             // Previous page is null. Updating buttons and ignoring request.
             updateButtons();
-            return false;
+            return;
         }
         setPage(previousPage);
-        return true;
     }
 
     private void setPage(AbstractWizardPage newPage) {
@@ -76,10 +72,6 @@ public class WizardController {
             currentPage = null;
         }
         showNextPage(startPage);
-    }
-
-    public List<AbstractWizardPage> getPageHistoryList() {
-        return new ArrayList<AbstractWizardPage>(pageHistory);
     }
 
     public void updateButtons() {
