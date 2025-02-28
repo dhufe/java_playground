@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Properties;
 
 public class BagitInfoPage extends AbstractWizardPage {
@@ -20,13 +21,12 @@ public class BagitInfoPage extends AbstractWizardPage {
     private final BagitParamModel bagitParamModel = new BagitParamModel();
 
     private JTable ParameterTable;
-    private JScrollPane ScrollPanel;
     private JPanel MainPanel;
 
     public BagitInfoPage() {
         $$$setupUI$$$();
 
-        String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+        String rootPath = Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource("")).getPath();
         String appConfigPath = rootPath + "parameter.properties";
 
         Properties appProps = new Properties();
@@ -82,10 +82,10 @@ public class BagitInfoPage extends AbstractWizardPage {
     private void $$$setupUI$$$() {
         MainPanel = new JPanel();
         MainPanel.setLayout(new GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
-        ScrollPanel = new JScrollPane();
-        MainPanel.add(ScrollPanel, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        JScrollPane scrollPanel = new JScrollPane();
+        MainPanel.add(scrollPanel, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         ParameterTable = new JTable();
-        ScrollPanel.setViewportView(ParameterTable);
+        scrollPanel.setViewportView(ParameterTable);
         final JPanel panel1 = new JPanel();
         panel1.setLayout(new GridLayoutManager(2, 2, new Insets(0, 0, 0, 0), -1, -1));
         MainPanel.add(panel1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
