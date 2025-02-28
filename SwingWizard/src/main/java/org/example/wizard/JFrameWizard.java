@@ -18,23 +18,8 @@ public class JFrameWizard extends JFrame implements WizardInterface {
     private final JButton nextButton = new JButton("Nächster Schritt");
     private final JButton finishButton = new JButton("Fertigstellen");
 
-    public JFrameWizard(String title, GraphicsConfiguration gc) {
-        super(title, gc);
-        setupWizard();
-    }
-
     public JFrameWizard(String title) {
         super(title);
-        setupWizard();
-    }
-
-    public JFrameWizard(GraphicsConfiguration gc) {
-        super(gc);
-        setupWizard();
-    }
-
-    public JFrameWizard() {
-        super();
         setupWizard();
     }
 
