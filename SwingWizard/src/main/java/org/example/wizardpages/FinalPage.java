@@ -5,8 +5,6 @@ import org.example.wizard.AbstractWizardPage;
 import java.awt.FlowLayout;
 import java.awt.Label;
 import java.awt.TextField;
-import java.awt.event.TextEvent;
-import java.awt.event.TextListener;
 
 public class FinalPage extends AbstractWizardPage {
 
