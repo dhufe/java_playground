@@ -46,6 +46,7 @@ public class MaskPasswords extends Application {
         // real or masked password, and may
         // need to update if configWithShownPasswords changes:
         ValueCol.setCellFactory(c -> {
+            // converter is needed to convert the corresponding model into a string and vice versa
             DefaultStringConverter converter = new DefaultStringConverter();
             // textfield cell for editing values:
             TextFieldTableCell cell = new TextFieldTableCell<ConfigModel, String>(converter);
