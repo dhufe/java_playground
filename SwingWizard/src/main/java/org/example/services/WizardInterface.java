@@ -1,4 +1,4 @@
-package org.example.wizard;
+package org.example.services;
 
 import java.awt.Container;
 import javax.swing.AbstractButton;

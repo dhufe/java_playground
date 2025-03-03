@@ -1,5 +1,7 @@
 package org.example.wizard;
 
+import org.example.services.WizardInterface;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
