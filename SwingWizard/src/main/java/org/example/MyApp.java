@@ -2,7 +2,7 @@ package org.example;
 
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import org.example.wizard.AbstractWizardPage;
-import org.example.wizard.JFrameWizard;
+import org.example.services.impl.JFrameWizard;
 import org.example.wizard.WizardController;
 import org.example.wizardpages.StartPage;
 

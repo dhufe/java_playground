@@ -1,4 +1,4 @@
-package org.example.wizard;
+package org.example.services.impl;
 
 import org.example.services.WizardInterface;
 

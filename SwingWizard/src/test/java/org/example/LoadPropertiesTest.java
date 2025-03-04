@@ -13,8 +13,8 @@ import java.util.Properties;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class LoadPropertiesTest {
-    @Test
 
+    @Test
     public void testLoadProperties() throws IOException {
         String rootPath = Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource("")).getPath();
         String appConfigPath = rootPath + "parameter.properties";
