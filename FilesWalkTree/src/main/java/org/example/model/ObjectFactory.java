@@ -9,6 +9,7 @@ public class ObjectFactory {
 
     public static VerzObjExtended createVerzObjExtended(ObjectType objectType, Optional<Path> path) {
         VerzObjExtended _obj = new VerzObjExtended();
+
         if (path.isPresent()) {
             Path p = path.get();
             _obj.setFilepath(p.toAbsolutePath().getParent().toString());
