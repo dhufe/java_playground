@@ -27,6 +27,7 @@ replay_pid*
 
 # ignoreing testdata
 testdata
+**/*/test_data
 
 # ignoreing target-dirs 
 
