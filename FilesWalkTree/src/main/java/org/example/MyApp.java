@@ -1,6 +1,7 @@
 package org.example;
 
 import de.dit.api.dimag.controlfile.ControlfileController;
+import de.dit.api.dimag.controlfile.VerzObjExtended;
 import de.dit.api.dimag.controlfile.extended.types.VerzeichnungseinheitExtended;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,16 +12,18 @@ import java.nio.file.Path;
 
 public class MyApp {
 
-    private static final Logger logger = LogManager.getLogger( MyApp.class.getSimpleName() );
+    private static final Logger logger = LogManager.getLogger(MyApp.class.getSimpleName());
 
     public static void main(String[] args) throws IOException {
-        Path startingDir = Path.of(System.getProperty("user.dir") , "testdata");
+        Path startingDir = Path.of(System.getProperty("user.dir"), "testdata");
         logger.info("Starting directory: {}", startingDir);
         PrintFiles pf = new PrintFiles();
         Files.walkFileTree(startingDir, pf);
 
-        VerzeichnungseinheitExtended obj = pf.getVerz();
+        VerzObjExtended obj = pf.getVerz();
+        VerzeichnungseinheitExtended root = new VerzeichnungseinheitExtended();
+        root.getVerzObj().add(obj);
         ControlfileController ctrl = new ControlfileController();
-        System.out.println(ctrl.getAsXml(obj));
+        System.out.println(ctrl.getAsXml(root));
     }
 }
